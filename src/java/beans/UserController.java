@@ -6,6 +6,7 @@
 package beans;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -56,7 +57,29 @@ public class UserController {
 
     }
 
+    protected void registerNewUser(String username, String passhash) {
+        try {
+            // Make a connection
+            Connection connection = Utils.getConnection();
+            // Build a Query
+            String sql = "INSERT INTO users (`username`, `passhash`) VALUES (?, ?)";
+            Statement stmt = connection.createStatement();
+
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+
+            pstmt.setString(1, username);
+            pstmt.setString(2, passhash);
+            pstmt.executeUpdate();
+            updateUsersFromDatabase();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     public List<User> getUsers() {
+        updateUsersFromDatabase();
         return users;
     }
 

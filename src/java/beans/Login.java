@@ -18,15 +18,16 @@ public class Login {
 
     private String username;
     private String password;
-    
+    private String passwordConfirm;
+
     private boolean loggedIn;
     private User loggedUser;
 
     public boolean isLoggedIn() {
         return loggedIn;
     }
-    
-    public User getLoggedUser(){
+
+    public User getLoggedUser() {
         return loggedUser;
     }
 
@@ -54,10 +55,18 @@ public class Login {
         this.password = password;
     }
 
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
+
     public String doLogin() {
         String passhash = Utils.hash(password);
 
-        for (User u : new UserController().getUsers()) {    
+        for (User u : new UserController().getUsers()) {
             if (username.equals(u.getUsername())
                     && passhash.equals(u.getPasshash())) {
                 loggedIn = true;
@@ -70,7 +79,18 @@ public class Login {
         return "login";
 
     }
-    public String doLogout(){
+
+    public String doRegister() {
+        System.out.println(username + " " + password + " " + passwordConfirm);
+        if (password.equals(passwordConfirm)) {
+            String passhash = Utils.hash(password);
+            new UserController().registerNewUser(username, passhash);
+            return "index";
+        }
+        return "register";
+    }
+
+    public String doLogout() {
         loggedIn = false;
         loggedUser = null;
         return "index";
