@@ -7,12 +7,14 @@ package beans;
 
 import java.util.Date;
 
+//  CREATE TABLE posts ( 
+//       id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+//       user_id INT NOT NULL, 
+//       title VARCHAR(255) NOT NULL UNIQUE, 
+//       created_time DATETIME NOT NULL,
+//       contents TEXT, 
+//       FOREIGN KEY posts(user_id) REFERENCES users(id) );
 /**
- *
- *
- * CREATE TABLE posts ( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, user_id INT
- * NOT NULL, title VARCHAR(255) NOT NULL UNIQUE, created_time DATETIME NOT NULL,
- * contents TEXT, FOREIGN KEY posts(user_id) REFERENCES users(id) );
  *
  * @author c0661047
  */

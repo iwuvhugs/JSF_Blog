@@ -30,7 +30,7 @@ public class Utils {
 
         String host = "localhost";
         String port = "3306";
-        String db = "blog";
+        String db = "jsf_blog";
         String user = "root";
         String pass = "";
 

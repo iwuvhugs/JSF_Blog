@@ -29,6 +29,7 @@ public class PostController {
     private Post currentPost;
 
     public List<Post> getPosts() {
+        updatePostsFromDatabase();
         return posts;
     }
 
@@ -74,6 +75,11 @@ public class PostController {
         return "viewPost";
     }
 
+    public String editPost(Post post) {
+        currentPost = post;
+        return "editPost";
+    }
+
     public String savePost() {
 
         try {
@@ -92,5 +98,43 @@ public class PostController {
             Logger.getLogger(PostController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "viewPost";
+    }
+
+    public String addPost(int user_id, String title, String content) {
+        try {
+            // Make a connection
+            Connection connection = Utils.getConnection();
+
+//            "INSERT INTO `posts`(`user_id`, `title`, `contents`) VALUES (1,\"Hi\",\"Hi\")";
+            String sql = "INSERT INTO posts (`user_id`, `title`, `contents`) VALUES (?, ?, ?) ";
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+
+            pstmt.setInt(1, user_id);
+            pstmt.setString(2, title);
+            pstmt.setString(3, content);
+//             System.out.println(pstmt.toString());
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(PostController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "index";
+    }
+
+    public String deleteCurrentPost() {
+
+        try {
+            // Make a connection
+            Connection connection = Utils.getConnection();
+
+            String sql = "DELETE FROM posts WHERE id = ? ";
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+
+            pstmt.setInt(1, currentPost.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(PostController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return "index";
     }
 }

@@ -1,17 +1,29 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Facelet Title</title>
+
+        <link rel="stylesheet" 
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
+              type="text/css"></link>
+
+        <style src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></style>
     </h:head>
     <h:body>
         <h1>#{postController.currentPost.title}</h1>
         <p>#{postController.currentPost.contents}</p>
         <p>By: #{userController.getUsernameById(postController.currentPost.user_id)}</p>
         <p>Posted at: #{postController.currentPost.createdTime.toLocaleString()}</p>
+
+
+        <c:if test="#{!login.loggedIn}">
+            <h:button outcome="login" value="Login" />
+        </c:if>
         <h:button outcome="index" value="Back" />
-        <h:button outcome="login" value="Login" />
+
     </h:body>
 </html>
 

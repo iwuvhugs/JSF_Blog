@@ -18,10 +18,16 @@ public class Login {
 
     private String username;
     private String password;
+    
     private boolean loggedIn;
+    private User loggedUser;
 
     public boolean isLoggedIn() {
         return loggedIn;
+    }
+    
+    public User getLoggedUser(){
+        return loggedUser;
     }
 
     public void setLoggedIn(boolean loggedIn) {
@@ -51,15 +57,22 @@ public class Login {
     public String doLogin() {
         String passhash = Utils.hash(password);
 
-        for (User u : new UserController().getUsers()) {
+        for (User u : new UserController().getUsers()) {    
             if (username.equals(u.getUsername())
                     && passhash.equals(u.getPasshash())) {
                 loggedIn = true;
-                return "editPost";
+                loggedUser = u;
+                return "index";
             }
         }
         loggedIn = false;
-        return "viewPost";
+        loggedUser = null;
+        return "login";
 
+    }
+    public String doLogout(){
+        loggedIn = false;
+        loggedUser = null;
+        return "index";
     }
 }

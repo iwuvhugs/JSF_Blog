@@ -5,10 +5,11 @@
  */
 package beans;
 
+//  CREATE TABLE users ( 
+//    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+//    username VARCHAR(255) NOT NULL UNIQUE, 
+//    passhash VARCHAR(255) NOT NULL );
 /**
- *
- * CREATE TABLE users ( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, username
- * VARCHAR(255) NOT NULL UNIQUE, passhash VARCHAR(255) NOT NULL );
  *
  * @author c0661047
  */
@@ -17,8 +18,6 @@ public class User {
     private int id;
     private String username;
     private String passhash;
-
-    
 
     public User(int id, String username, String passhash) {
         this.id = id;
@@ -49,7 +48,5 @@ public class User {
     public void setPasshash(String passhash) {
         this.passhash = passhash;
     }
-    
-
 
 }

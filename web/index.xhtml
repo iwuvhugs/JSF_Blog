@@ -1,26 +1,70 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Facelet Title</title>
+
+        <link rel="stylesheet" 
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
+              type="text/css"></link>
+
+        <style src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></style>
     </h:head>
     <h:body>
-        <h:form>
-            <h:dataTable value="#{postController.posts}" var="post">
-                <h:column>
-                    <h:link outcome="#{postController.viewPost(post)}">
-                        #{post.title}
-                    </h:link>
-                </h:column>
-                <h:column>
-                    #{userController.getUsernameById(post.user_id)}
-                </h:column>
-                <h:column>
-                    #{post.createdTime.toLocaleString()}
-                </h:column>
-            </h:dataTable>
-        </h:form>
+        <div class="container">
+            <div>
+                <div align="right">
+                    <c:if test="#{!login.loggedIn}">
+
+                        <h:button class="button" outcome="login" value="Sign In" />
+                        <h:button class="button"  outcome="register" value="Sign Up" />
+
+                    </c:if>
+                    <c:if test="#{login.loggedIn}">
+
+                        <h:form>
+                            <p style="display:inline; padding: 0 20px;">#{login.loggedUser.username}</p>  
+                            <h:button style="display:inline"  class="button" outcome="addPost" value="Add new post" />
+                            <h:commandButton style="display:inline" action="#{login.doLogout()}" value="Logout"/>
+                        </h:form>
+
+                    </c:if>
+                </div>
+                <h1 class="text-center">JSF Blog</h1>
+                <ui:repeat value="#{postController.posts}" var="post">
+                    <div class="col-md-3 col-sm-4 col-xs-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <c:if test="#{!login.loggedIn}">
+                                        <h:link outcome="#{postController.viewPost(post)}">
+                                            #{post.title}
+                                        </h:link>
+                                    </c:if>
+                                    <c:if test="#{login.loggedIn}">
+                                        <h:link outcome="#{postController.editPost(post)}">
+                                            #{post.title}
+                                        </h:link>
+                                    </c:if>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <p style="float:left" align="left">by #{userController.getUsernameById(post.user_id)}</p>
+                                <p align="right">
+                                    <h:outputText value="#{post.createdTime}" >
+                                        <f:convertDateTime pattern="MMMM dd, yyyy" />
+                                    </h:outputText>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </ui:repeat>
+            </div>
+        </div>
     </h:body>
 </html>
 
